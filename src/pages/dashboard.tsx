@@ -33,6 +33,7 @@ export const DashboardPage: React.FC = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
+
   // const [esgRequests] = useLoadRequests();
 
   // eslint-disable-next-line
@@ -61,41 +62,47 @@ export const DashboardPage: React.FC = () => {
     }
   };
 
+
+
+  if (!data?.address) {
+    return (<></>)
+  }
+
   return (
     <>
-      <Row gutter={24}>
-        <Col span={12}>
-          <Card
-            title="XRPL Address"
-            style={{ height: "150px", borderRadius: "15px" }}
-            headStyle={{ textAlign: "center" }}
-          >
-            <Space align="center" direction="horizontal">
-              <Text>{isLoading ? "loading" : data?.address}</Text>
-            </Space>
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card
-            title="Balance"
-            style={{ height: "150px", borderRadius: "15px" }}
-            headStyle={{ textAlign: "center" }}
-          >
-            <Account address={data?.address}>
-              <Balance />
-            </Account>
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card
-            title="Total issues"
-            style={{ height: "150px", borderRadius: "15px" }}
-            headStyle={{ textAlign: "center" }}
-          >
-            <Text>{`${isLoading ? "loading" : "0"} Requests`}</Text>
-          </Card>
-        </Col>
-        {/* <Col span={12}>
+        <Row gutter={24}>
+          <Col span={12}>
+            <Card
+              title="XRPL Address"
+              style={{ height: "150px", borderRadius: "15px" }}
+              headStyle={{ textAlign: "center" }}
+            >
+              <Space align="center" direction="horizontal">
+                <Text>{isLoading ? "loading" : data?.address}</Text>
+              </Space>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card
+              title="Balance"
+              style={{ height: "150px", borderRadius: "15px" }}
+              headStyle={{ textAlign: "center" }}
+            >
+               <Account address={data?.address}>
+                  <Balance />
+                </Account>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card
+              title="Total issues"
+              style={{ height: "150px", borderRadius: "15px" }}
+              headStyle={{ textAlign: "center" }}
+            >
+              <Text>{`${isLoading ? "loading" : "0"} Requests`}</Text>
+            </Card>
+          </Col>
+          {/* <Col span={12}>
           <Button
             style={{ maxWidth: 300, marginTop: 24 }}
             type="primary"
@@ -113,24 +120,24 @@ export const DashboardPage: React.FC = () => {
             View on Etherscan
           </Button>
         </Col> */}
-      </Row>
+        </Row>
 
-      <Modal
-        {...modalProps}
-        okText={"Send"}
-        title={"Send Test Ethereum via Ropsten Chain"}
-        onOk={form.submit}
-        okButtonProps={{ loading: loading }}
-      >
-        <Form layout="vertical" onFinish={handleModal} form={form}>
-          <Form.Item name="receiver" label="Receiver Public Adress">
-            <Input />
-          </Form.Item>
-          <Form.Item name="amount" label="Amaount Ether">
-            <Input />
-          </Form.Item>
-        </Form>
-      </Modal>
+        <Modal
+          {...modalProps}
+          okText={"Send"}
+          title={"Send Test Ethereum via Ropsten Chain"}
+          onOk={form.submit}
+          okButtonProps={{ loading: loading }}
+        >
+          <Form layout="vertical" onFinish={handleModal} form={form}>
+            <Form.Item name="receiver" label="Receiver Public Adress">
+              <Input />
+            </Form.Item>
+            <Form.Item name="amount" label="Amaount Ether">
+              <Input />
+            </Form.Item>
+          </Form>
+        </Modal>
     </>
   );
 };

@@ -31,7 +31,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <XRPLClient network="wss://s.altnet.rippletest.net:51233/">
+      <XRPLClient network="wss://s.altnet.rippletest.net:51233">
         <ConfigProvider theme={RefineThemes.Blue}>
           <AntdApp>
             <Refine

@@ -26,11 +26,8 @@ export const Login: React.FC = () => {
                     loading={isLoading}
                     onClick={() => login({})}
                 >
-                    Sign in with Ethereum
+                    Sign in with XUMM
                 </Button>
-                <Typography.Text type="secondary">
-                    Powered by MetaMask
-                </Typography.Text>
             </Space>
         </Layout>
     );

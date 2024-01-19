@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useGetIdentity } from "@refinedev/core";
 
-import { useModal } from "@refinedev/antd";
 
 import {
   Row,
@@ -9,18 +8,11 @@ import {
   Card,
   Typography,
   Space,
-  Button,
-  Modal,
-  Form,
-  Input,
-  notification,
 } from "antd";
 
-import { sendEthereum } from "../utility";
-import { xumm } from "../modules/xrpl/services/xumm";
-import { useLoadRequests } from "../modules/xrpl/hooks";
 import { Account } from "@nice-xrpl/react-xrpl";
 import { Balance } from "../modules/xrpl/components/balance";
+import { MakeRequest } from "../modules/xrpl/components/requests";
 
 const { Text } = Typography;
 
@@ -29,115 +21,47 @@ export const DashboardPage: React.FC = () => {
     address: string;
     balance: string;
   }>();
-  const { modalProps, show, close } = useModal();
-  const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
-
-
-  // const [esgRequests] = useLoadRequests();
-
-  // eslint-disable-next-line
-  const handleModal = async (values: any) => {
-    setLoading(true);
-    // eslint-disable-next-line
-    const tx: any | undefined = await sendEthereum(
-      data?.address || "",
-      values.receiver,
-      values.amount
-    );
-    const status = tx ? tx.status : undefined;
-    setLoading(false);
-
-    if (status) {
-      close();
-      notification["success"]({
-        message: "Transaction Success",
-        description: "Transaction successfull you can check on Etherscan.io",
-      });
-    } else {
-      notification["warning"]({
-        message: "Transaction Failed",
-        description: "Transaction failed try again",
-      });
-    }
-  };
-
-
 
   if (!data?.address) {
-    return (<></>)
+    return <></>;
   }
 
   return (
-    <>
-        <Row gutter={24}>
-          <Col span={12}>
-            <Card
-              title="XRPL Address"
-              style={{ height: "150px", borderRadius: "15px" }}
-              headStyle={{ textAlign: "center" }}
-            >
-              <Space align="center" direction="horizontal">
-                <Text>{isLoading ? "loading" : data?.address}</Text>
-              </Space>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card
-              title="Balance"
-              style={{ height: "150px", borderRadius: "15px" }}
-              headStyle={{ textAlign: "center" }}
-            >
-               <Account address={data?.address}>
-                  <Balance />
-                </Account>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card
-              title="Total issues"
-              style={{ height: "150px", borderRadius: "15px" }}
-              headStyle={{ textAlign: "center" }}
-            >
-              <Text>{`${isLoading ? "loading" : "0"} Requests`}</Text>
-            </Card>
-          </Col>
-          {/* <Col span={12}>
-          <Button
-            style={{ maxWidth: 300, marginTop: 24 }}
-            type="primary"
-            size="large"
-            onClick={() => show()}
-          >
-            Send Ethereum
-          </Button>
-          <Button
-            style={{ maxWidth: 300, marginTop: 24, marginLeft: 12 }}
-            type="primary"
-            size="large"
-            href={`https://ropsten.etherscan.io/address/${data?.address}`}
-          >
-            View on Etherscan
-          </Button>
-        </Col> */}
-        </Row>
-
-        <Modal
-          {...modalProps}
-          okText={"Send"}
-          title={"Send Test Ethereum via Ropsten Chain"}
-          onOk={form.submit}
-          okButtonProps={{ loading: loading }}
+    <Row gutter={24}>
+      <Col span={12}>
+        <Card
+          title="XRPL Address"
+          style={{ height: "150px", borderRadius: "15px" }}
+          headStyle={{ textAlign: "center" }}
         >
-          <Form layout="vertical" onFinish={handleModal} form={form}>
-            <Form.Item name="receiver" label="Receiver Public Adress">
-              <Input />
-            </Form.Item>
-            <Form.Item name="amount" label="Amaount Ether">
-              <Input />
-            </Form.Item>
-          </Form>
-        </Modal>
-    </>
+          <Space align="center" direction="horizontal">
+            <Text>{isLoading ? "loading" : data?.address}</Text>
+          </Space>
+        </Card>
+      </Col>
+      <Col span={8}>
+        <Card
+          title="Basic information"
+          style={{ height: "150px", borderRadius: "15px" }}
+          headStyle={{ textAlign: "center" }}
+        >
+          {data?.address && (
+            <Account address={data?.address}>
+              <Balance />
+              <br />
+              <Text>Requests: 0</Text>
+            </Account>
+          )}
+        </Card>
+      </Col>
+
+      <Col span={12}>
+        {data?.address && (
+          <Account address={data?.address}>
+            <MakeRequest />
+          </Account>
+        )}
+      </Col>
+    </Row>
   );
 };

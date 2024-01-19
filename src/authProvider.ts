@@ -2,7 +2,7 @@ import { AuthProvider } from "@refinedev/core";
 import Web3 from "web3";
 
 import { getBalance } from "./utility";
-import { xumm } from "./modules/xrpl/services/xumm";
+import { xumm } from "./modules/xrpl/services/main-services";
 import { withTimeout } from "./utility/core";
 
 export const TOKEN_KEY = "refine-auth";

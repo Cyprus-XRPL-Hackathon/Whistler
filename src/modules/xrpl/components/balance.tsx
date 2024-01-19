@@ -7,5 +7,5 @@ const { Text } = Typography;
 export const Balance: React.FC = () => {
   const balance = useBalance();
 
-  return (<Text>{balance}</Text>);
+  return (<Text>Balance: {balance}</Text>);
 };

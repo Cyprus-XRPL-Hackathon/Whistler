@@ -7,9 +7,26 @@
 A comprehensive decentralised solution for the adoption of the EU whistleblowing directive [read more: EU commission](https://commission.europa.eu/aid-development-cooperation-fundamental-rights/your-rights-eu/protection-whistleblowers_en). Powered by Ripple.
 
 ## PROJECT OVERVIEW 
-TODO
+Companies will provide Users (employees) with a fast and secure whistleblowing mechanism. There are two layers:
+1. **Ripple blockchain.** The Company has a Ripple wallet handled by the whistleblowing supervisor (according to EU, the HR manager). [Weighted multi-signing](https://xrpl.org/multi-signing.html) can be used to implement access control and require a weighted consensus. Users will be securely and anonymously provided a wallet to submit reports.
+2. **Custom layer.** Our solution operates on a second layer, initialised by an [NFT](https://xrpl.org/non-fungible-tokens.html) transaction containing encrypted data. Here is where reports will be sent.
 
-## RIPPLE BLOCKCHAIN
+### EU Directive
+Some key points of the Directive:
+1. Whistleblowers must be able to send reports confidentially.
+2. Reports can be submitted online.
+3. Companies need to provide a follow-up within some days.
+4. Companies need to store the report and contact the dedicated supervising authority.
+[Read the full Directive.](https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32019L1937)
+
+### Our solution
+The power of Ripple and Cryptography allow us to provide the following:
+1. Mathematical certainty that no third party can access your reports.
+2. Anonymus access to the whistleblowing service thanks to Ripple.
+3. GDPR compliant.
+4. Can allow arbitrary & custom anonymous access control.
+
+## NFTs
 TODO
 
 ## BURNER ACCOUNTS

@@ -1,0 +1,9 @@
+service:
+  web:
+    image: node:current-alpine
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
+    ports:
+      - "5173:5173"
+    command: /bin/sh -c "cd /home/node/app && npm ci && npm run start"

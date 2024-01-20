@@ -1,12 +1,42 @@
-/** Proof of Concept for key exchange in Whistler project
- * Author: 1dotd4
- *
- * This is a Proof of Concept of our key exchange in transactions.
- * This works on browsers. Documentation will follow somewhere else.
- */
 (async () => {
   const crypto = window.crypto;
   const subtle = window.crypto.subtle || window.crypto.webkitSubtle;
+  const publicAlg = {
+    name: "ECDH",
+    namedCurve: "P-384",
+  };
+  const secretAlg = {
+    name: "AES-GCM",
+    length: 256,
+  };
+
+  function buf2hex(buffer) { // buffer is an ArrayBuffer
+    return [...new Uint8Array(buffer)]
+      .map(x => x.toString(16).padStart(2, '0'))
+      .join('');
+  }
+
+  function hex2buf(hexString) {
+    // remove the leading 0x
+    hexString = hexString.replace(/^0x/, '');
+    // ensure even number of characters
+    if (hexString.length % 2 != 0) {
+      console.log('WARNING: expecting an even number of characters in the hexString');
+    }
+    // check for some non-hex characters
+    var bad = hexString.match(/[G-Z\s]/i);
+    if (bad) {
+      console.log('WARNING: found non-hex characters', bad);
+    }
+    // split the string into pairs of octets
+    var pairs = hexString.match(/[\dA-F]{2}/gi);
+    // convert the octets to integers
+    var integers = pairs.map(function(s) {
+      return parseInt(s, 16);
+    });
+    var array = new Uint8Array(integers);
+    return array.buffer;
+  }
 
   if (!crypto) {
     console.warn("We have not crypto!");
@@ -30,25 +60,21 @@
       ["deriveKey"],
     );
     company.keyPair = keyPair;
-    return subtle.exportKey("raw", keyPair.publicKey);
+    return buf2hex(await subtle.exportKey("raw", keyPair.publicKey));
   }
 
   async function encryptMessage(receivedPublicKeyRaw, message) {
     // Import key
     let receivedPublicKey = await subtle.importKey(
       "raw",
-      receivedPublicKeyRaw, {
-        name: "ECDH",
-        namedCurve: "P-384",
-      },
+      hex2buf(receivedPublicKeyRaw),
+      publicAlg,
       false,
       ["deriveKey"],
     );
     // Generate key pair
-    let keyPair = await subtle.generateKey({
-        name: "ECDH",
-        namedCurve: "P-384",
-      },
+    let keyPair = await subtle.generateKey(
+      publicAlg,
       false,
       ["deriveKey"],
     );
@@ -58,10 +84,8 @@
         name: "ECDH",
         public: receivedPublicKey,
       },
-      keyPair.privateKey, {
-        name: "AES-GCM",
-        length: 256,
-      },
+      keyPair.privateKey,
+      secretAlg,
       false, // extractable, maybe should be true?
       ["encrypt"],
     );
@@ -77,18 +101,17 @@
       plaintext,
     );
     let pubkey = await subtle.exportKey("raw", keyPair.publicKey);
-    return [pubkey, iv, ciphertext];
+    return [buf2hex(pubkey), hex2buf(buf2hex(iv) + buf2hex(ciphertext))];
   }
 
-  async function decryptMessage(payload) {
-    [receivedPublicKeyRaw, iv, ciphertext] = payload;
+  async function decryptMessage(receivedPublicKeyRaw, encodedCiphertext) {
+    let iv = encodedCiphertext.slice(0, 12);
+    let ciphertext = encodedCiphertext.slice(12);
     // Import key
     let receivedPublicKey = await subtle.importKey(
       "raw",
-      receivedPublicKeyRaw, {
-        name: "ECDH",
-        namedCurve: "P-384",
-      },
+      hex2buf(receivedPublicKeyRaw),
+      publicAlg,
       false,
       ["deriveKey"],
     );
@@ -97,11 +120,9 @@
         name: "ECDH",
         public: receivedPublicKey,
       },
-      company.keyPair.privateKey, {
-        name: "AES-GCM",
-        length: 256,
-      },
-      false, // extractable, maybe should be true?
+      company.keyPair.privateKey,
+      secretAlg,
+      false,
       ["decrypt"],
     );
     // Decrypt message
@@ -113,6 +134,7 @@
         sharedSecret,
         ciphertext,
       );
+
       let decoder = new TextDecoder();
       let message = decoder.decode(plaintext);
       return message;
@@ -122,9 +144,10 @@
   }
 
   let companyPubKey = await setupKey();
+  // console.log(hex2buf(companyPubKey));
   let message = "Hello Cyprus, this can also be a long message, we use Authenticated Encryption!";
   let payload = await encryptMessage(companyPubKey, message);
-  console.log(payload);
-  let recoveredMessage = await decryptMessage(payload);
+  // console.log(payload); // First is the public key to send, second is the raw bytes to save to IPFS
+  let recoveredMessage = await decryptMessage(payload[0], payload[1]);
   console.log(recoveredMessage);
 })();

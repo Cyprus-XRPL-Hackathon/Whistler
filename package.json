@@ -53,7 +53,7 @@
     "vite": "^4.3.1"
   },
   "scripts": {
-    "predeploy": "refine build",
+    "predeploy": "refine buil",
     "deploy": "gh-pages -d build",
     "start": "refine dev",
     "build": "tsc && refine build",

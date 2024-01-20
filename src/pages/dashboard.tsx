@@ -4,10 +4,8 @@ import { useGetIdentity } from "@refinedev/core";
 import { Row, Col, Card, Typography, Space } from "antd";
 
 import { Account } from "@nice-xrpl/react-xrpl";
-import { Balance } from "../modules/xrpl/components/balance";
 import { MakeRequest } from "../modules/xrpl/components/requests";
 import { NftTokensPage } from "../modules/xrpl/components/nftTokens";
-import { companyAddress } from "../modules/xrpl/services/main-services";
 
 const { Text } = Typography;
 

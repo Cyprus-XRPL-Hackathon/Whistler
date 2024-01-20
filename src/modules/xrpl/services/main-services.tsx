@@ -8,7 +8,7 @@ export const xumm = new Xumm('6c73afb3-edc9-4bf7-8493-247406d789b7') // Some API
 // TODO: change it to TLS handshake
 export const publicKey = naclUtil.decodeBase64('01zkh+BamzzaVz5e1kpZflE4t1Dt8Ws/m9aywpX0PDA=')
 export const secretKey = naclUtil.decodeBase64('hwbaEia+hrWBMUGlIHKY5YIvKgNprwnTCSn4hHtpD/4=')
-export const companyAddress = 'rwietsevLFg8XSmG3bEZzFein1g8RBqWDZ';
+export const companyAddress = 'rJidoujQfAnuL35bVNLYRCVyiySgmhaBaB';
 
 
 function generateKeyPairToBase64() {

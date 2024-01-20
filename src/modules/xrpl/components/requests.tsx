@@ -4,7 +4,7 @@ import { useGetIdentity } from "@refinedev/core";
 import { useModal } from "@refinedev/antd";
 
 import { Typography, Button, Modal, Form, Input } from "antd";
-import { useMintToken } from "@nice-xrpl/react-xrpl";
+import { useAccountStore, useMintToken } from "@nice-xrpl/react-xrpl";
 import {
   companyAddress,
   publicKey,
@@ -24,10 +24,61 @@ export const MakeRequest: React.FC = () => {
 
   // const [esgRequests] = useLoadRequests();
   const mintToken = useMintToken();
+  
+  const account = useAccountStore();
+  
   const { data: authData, isLoading } = useGetIdentity<{
     address: string;
     balance: string;
   }>();
+
+
+  const transferNft = async () => {
+    // TODO: get by trusuction id for memos
+    const tokens = account.tokens.getState()
+    const token = tokens[0];
+    console.log('Sending token with id: ', token.id)
+    const payload = await xumm.payload?.createAndSubscribe(
+      {
+        TransactionType: "NFTokenCreateOffer",
+        NFTokenID: token.id,
+        Owner: account.address,
+        Account: companyAddress,
+        Amount: "1000",
+      },
+      (event) => {
+        if (event.payload.response.txid) {
+          setLoading(false);
+          close();
+        }
+        console.log(event);
+      }
+    );
+
+    if (payload) {
+      // setPayloadUuid(payload.created.uuid)
+
+      if (xumm.runtime.xapp) {
+        xumm.xapp?.openSignRequest(payload.created);
+      } else {
+        if (
+          payload.created.pushed &&
+          payload.created.next?.no_push_msg_received
+        ) {
+          // setOpenPayloadUrl(payload.created.next.no_push_msg_received)
+        } else {
+          window.open(payload.created.next.always);
+        }
+      }
+    }
+    // data = {
+    //   "TransactionType": "NFTokenCreateOffer",
+    //   "Account": standby_wallet.classicAddress,
+    //   "NFTokenID": standbyTokenIdField.value,
+    //   "Amount": standbyAmountField.value,
+    //   "Flags": parseInt(standbyFlagsField.value),
+    // }}
+  }
 
   // eslint-disable-next-line
   const handleModal = async (values: any) => {
@@ -80,13 +131,14 @@ export const MakeRequest: React.FC = () => {
         console.error("No file provided");
       }
     }
-
+    // transferNft()
+    // return
     const hash = await uploadFile();
 
     const payload = await xumm.payload?.createAndSubscribe(
       {
         TransactionType: "NFTokenMint",
-        Account: values.address,
+        Account: account.address,
         TransferFee: 314,
         NFTokenTaxon: 0,
         Flags: 8,
@@ -96,8 +148,9 @@ export const MakeRequest: React.FC = () => {
       },
       (event) => {
         if (event.payload.response.txid) {
-          setLoading(false);
-          close();
+          transferNft()
+          // setLoading(false);
+          // close();
         }
         console.log(event);
       }

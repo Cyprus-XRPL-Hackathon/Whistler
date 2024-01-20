@@ -108,21 +108,29 @@ export const MakeRequest: React.FC = () => {
     async function uploadFile(): Promise<string | undefined> {
       
       if (values.message) {
+        const message = values.message;
+        const nonce = nacl.randomBytes(nacl.box.nonceLength);
+        const messageUint8 = naclUtil.decodeUTF8(message);
+        const encrypted = nacl.box(messageUint8, nonce, publicKey, secretKey);
+        console.log("Original message: ", message);
+        console.log("Encrypted: ", encrypted);
+        console.log("Nonce: ", nonce);
+
+        const jsonData = JSON.stringify({
+          nonce: naclUtil.encodeBase64(nonce),
+          data: naclUtil.encodeBase64(encrypted),
+        });
+
+        // const payload = await encryptMessage(null, message)
+        // const jsonData = JSON.stringify(payload);
+        
+        console.log(jsonData)
+        const fileData = new Blob(
+          [jsonData],
+          { type: "text/plain" }
+        );
         try {
-          const message = values.message;
-          // const nonce = nacl.randomBytes(nacl.box.nonceLength);
-          // const messageUint8 = naclUtil.decodeUTF8(message);
-          // const encrypted = nacl.box(messageUint8, nonce, publicKey, secretKey);
-          // console.log("Original message: ", message);
-          // console.log("Encrypted: ", encrypted);
-          // console.log("Nonce: ", nonce);
-          const payload = encryptMessage(null, message)
-          const jsonData = JSON.stringify(payload);
-          console.log(jsonData)
-          const fileData = new Blob(
-            [jsonData],
-            { type: "text/plain" }
-          );
+        
 
           // Create form data
           let formData = new FormData();

@@ -6,6 +6,7 @@ import { Row, Col, Card, Typography, Space } from "antd";
 import { Account } from "@nice-xrpl/react-xrpl";
 import { MakeRequest } from "../modules/xrpl/components/requests";
 import { NftTokensPage } from "../modules/xrpl/components/nftTokens";
+import { RequestOffersPage } from "../modules/xrpl/components/requestOffers";
 
 const { Text } = Typography;
 
@@ -47,10 +48,21 @@ export const DashboardPage: React.FC = () => {
           </Card>
         </Col>
       </Row>
+
+      <Text>Your request</Text>
       <Row gutter={24}>
         {data?.address && (
           <Account address={data?.address}>
             <NftTokensPage />
+          </Account>
+        )}
+      </Row>
+      <Text>Offers</Text>
+      <Row gutter={24}>
+        {data?.address && (
+          // Hardcode for demo
+          <Account address="rUNUhy8GLZAZmop2bykafBeWBa9DtX6u5U">
+            <RequestOffersPage />
           </Account>
         )}
       </Row>

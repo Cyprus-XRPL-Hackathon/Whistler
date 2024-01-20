@@ -7,6 +7,7 @@ import { Typography, Button, Modal, Form, Input } from "antd";
 import { useAccountStore, useMintToken } from "@nice-xrpl/react-xrpl";
 import {
   companyAddress,
+  encryptMessage,
   publicKey,
   secretKey,
   xumm,
@@ -15,6 +16,7 @@ import axios from "axios";
 import { stringToHex } from "../../../utility/convert";
 import nacl from "tweetnacl";
 import naclUtil from "tweetnacl-util";
+import { json } from "stream/consumers";
 
 const { Text } = Typography;
 export const MakeRequest: React.FC = () => {
@@ -30,21 +32,28 @@ export const MakeRequest: React.FC = () => {
   const { data: authData, isLoading } = useGetIdentity<{
     address: string;
     balance: string;
-  }>();
+  }>(); 
+
+  
+  
 
 
   const transferNft = async () => {
     // TODO: get by trusuction id for memos
     const tokens = account.tokens.getState()
-    const token = tokens[0];
+    const token = tokens[tokens.length - 1];
     console.log('Sending token with id: ', token.id)
     const payload = await xumm.payload?.createAndSubscribe(
       {
         TransactionType: "NFTokenCreateOffer",
         NFTokenID: token.id,
-        Owner: account.address,
-        Account: companyAddress,
+        // Owner: account.address,
+        Account: account.address,
+        // Account: account.address,
+        // Owner:  companyAddress ,
+        // Destination: companyAddress,
         Amount: "1000",
+        Flags: 1
       },
       (event) => {
         if (event.payload.response.txid) {
@@ -57,6 +66,7 @@ export const MakeRequest: React.FC = () => {
 
     if (payload) {
       // setPayloadUuid(payload.created.uuid)
+     
 
       if (xumm.runtime.xapp) {
         xumm.xapp?.openSignRequest(payload.created);
@@ -80,24 +90,35 @@ export const MakeRequest: React.FC = () => {
     // }}
   }
 
+  function _arrayBufferToBase64( buffer: ArrayBuffer ) {
+    var binary = '';
+    var bytes = new Uint8Array( buffer );
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode( bytes[ i ] );
+    }
+    return window.btoa( binary );
+}
   // eslint-disable-next-line
   const handleModal = async (values: any) => {
     setLoading(true);
+    // transferNft()
+    // return
 
     async function uploadFile(): Promise<string | undefined> {
+      
       if (values.message) {
         try {
           const message = values.message;
-          const nonce = nacl.randomBytes(nacl.box.nonceLength);
-          const messageUint8 = naclUtil.decodeUTF8(message);
-          const encrypted = nacl.box(messageUint8, nonce, publicKey, secretKey);
-          console.log("Original message: ", message);
-          console.log("Encrypted: ", encrypted);
-          console.log("Nonce: ", nonce);
-          const jsonData = JSON.stringify({
-            nonce: naclUtil.encodeBase64(nonce),
-            data: naclUtil.encodeBase64(encrypted),
-          });
+          // const nonce = nacl.randomBytes(nacl.box.nonceLength);
+          // const messageUint8 = naclUtil.decodeUTF8(message);
+          // const encrypted = nacl.box(messageUint8, nonce, publicKey, secretKey);
+          // console.log("Original message: ", message);
+          // console.log("Encrypted: ", encrypted);
+          // console.log("Nonce: ", nonce);
+          const payload = encryptMessage(null, message)
+          const jsonData = JSON.stringify(payload);
+          console.log(jsonData)
           const fileData = new Blob(
             [jsonData],
             { type: "text/plain" }
@@ -134,7 +155,7 @@ export const MakeRequest: React.FC = () => {
     // transferNft()
     // return
     const hash = await uploadFile();
-
+    let needSentTransfer = true;
     const payload = await xumm.payload?.createAndSubscribe(
       {
         TransactionType: "NFTokenMint",
@@ -148,7 +169,10 @@ export const MakeRequest: React.FC = () => {
       },
       (event) => {
         if (event.payload.response.txid) {
-          transferNft()
+          if (needSentTransfer) {
+            needSentTransfer = false;
+            transferNft()
+          }
           // setLoading(false);
           // close();
         }

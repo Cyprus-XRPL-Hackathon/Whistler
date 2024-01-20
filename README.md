@@ -93,4 +93,4 @@ Account burning must destroy C-SYM, C-KE, U-KE.
 -
 
 ### Non-team-created software or intellectual property (libraries, assets,...)
--
+- Logo; OpenAI, Dall-e-3

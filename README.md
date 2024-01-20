@@ -90,7 +90,8 @@ Account burning must destroy C-SYM, C-KE, U-KE.
 ## DETAILS FOR THE CYPRUS HACKATHON
 
 ### Work completed prior to the hackathon
--
+- initialisation of Refine App (17 jan)
 
 ### Non-team-created software or intellectual property (libraries, assets,...)
-- Logo; OpenAI, Dall-e-3
+- Logo: OpenAI, Dall-e-3
+- Typescript: Web Crypto API

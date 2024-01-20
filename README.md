@@ -1,3 +1,17 @@
+# WHISTLER
+
+<p align = "center"> 
+<img width="200" alt="logo" src="https://github.com/Cyprus-XRPL-Hackathon/Whistler/assets/64229723/62acc23d-372d-465d-9eca-32eddcbd5ca1">
+</p>
+
+A comprehensive decentralised solution for the adoption of the EU whistleblowing directive [read more: EU commission](https://commission.europa.eu/aid-development-cooperation-fundamental-rights/your-rights-eu/protection-whistleblowers_en). Powered by Ripple.
+
+## PROJECT OVERVIEW 
+TODO
+
+## RIPPLE BLOCKCHAIN
+TODO
+
 ## BURNER ACCOUNTS
 
 **Involved parties.** Company, User.

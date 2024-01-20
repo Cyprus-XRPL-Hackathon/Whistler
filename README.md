@@ -86,3 +86,11 @@ Account burning must destroy C-SYM, C-KE, U-KE.
 - Zero-knowledge proofs.
 - A layer of identity management to prevent DOS attacks.
 - Company could pre-compute offline some values for its part of the symmetric key exchange public data (C-KE) to improve performance.
+
+## DETAILS FOR THE CYPRUS HACKATHON
+
+### Work completed prior to the hackathon
+-
+
+### Non-team-created software or intellectual property (libraries, assets,...)
+-

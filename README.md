@@ -22,7 +22,7 @@ Some key points of the Directive:
 ### Our solution
 The power of Ripple and Cryptography allow us to provide the following:
 1. Mathematical certainty that no third party can access your reports.
-2. Anonymus access to the whistleblowing service thanks to Ripple.
+2. Anonym0us access to the whistleblowing service thanks to Ripple.
 3. GDPR compliant: data is safe.
 4. Can allow arbitrary & custom anonymous access control.
 

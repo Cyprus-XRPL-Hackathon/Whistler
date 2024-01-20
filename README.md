@@ -12,7 +12,7 @@ Companies will provide Users (employees) with a fast and secure whistleblowing m
 2. **Custom layer.** Our solution operates on a second layer, initialised by an [NFT](https://xrpl.org/non-fungible-tokens.html) transaction containing encrypted data. Here is where reports will be sent, allowing for full communication control.
 
 ### EU Directive
-Some key points of the Directive:
+Some key points of the Directive (articles 8, 9, 10):
 1. Whistleblowers must be able to send reports confidentially.
 2. Reports can be submitted online.
 3. Companies need to provide a follow-up within some days.
@@ -22,7 +22,7 @@ Some key points of the Directive:
 ### Our solution
 The power of Ripple and Cryptography allow us to provide the following:
 1. Mathematical certainty that no third party can access your reports.
-2. Anonym0us access to the whistleblowing service thanks to Ripple.
+2. Anonymous access to the whistleblowing service thanks to Ripple.
 3. GDPR compliant: data is safe.
 4. Can allow arbitrary & custom anonymous access control.
 
@@ -95,3 +95,4 @@ Account burning must destroy C-SYM, C-KE, U-KE.
 ### Non-team-created software or intellectual property (libraries, assets,...)
 - Logo: OpenAI, Dall-e-3
 - Typescript: Web Crypto API
+- NodeJS: React, Refine, Web3, XUMM

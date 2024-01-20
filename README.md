@@ -4,11 +4,11 @@
 <img width="200" alt="logo" src="https://github.com/Cyprus-XRPL-Hackathon/Whistler/assets/64229723/62acc23d-372d-465d-9eca-32eddcbd5ca1">
 </p>
 
-A comprehensive decentralised solution for the adoption of the EU whistleblowing directive [read more: EU commission](https://commission.europa.eu/aid-development-cooperation-fundamental-rights/your-rights-eu/protection-whistleblowers_en). Powered by Ripple and Algebra.
+A comprehensive decentralised solution for the adoption of the EU whistleblowing directive [read more: EU commission](https://commission.europa.eu/aid-development-cooperation-fundamental-rights/your-rights-eu/protection-whistleblowers_en). Powered by XRPL and Algebra.
 
 ## PROJECT OVERVIEW 
 Companies will provide Users (employees) with a fast and secure whistleblowing mechanism. There are two layers:
-1. **Ripple blockchain.** The Company has a Ripple wallet handled by the whistleblowing supervisor (according to EU, the HR manager). [Weighted multi-signing](https://xrpl.org/multi-signing.html) can be used to implement access control and require a weighted consensus. Users will be securely and anonymously provided a wallet to submit reports. We use a "burner account": it will be deleted along with all User-side information.
+1. **XRPL blockchain.** The Company has a XRPL wallet handled by the whistleblowing supervisor (according to EU, the HR manager). [Weighted multi-signing](https://xrpl.org/multi-signing.html) can be used to implement access control and require a weighted consensus. Users will be securely and anonymously provided a wallet to submit reports. We use a "burner account": it will be deleted along with all User-side information.
 2. **Custom layer.** Our solution operates on a second layer, initialised by an [NFT](https://xrpl.org/non-fungible-tokens.html) transaction containing encrypted data. Here is where reports will be sent, allowing for full communication control.
 
 ### EU Directive
@@ -20,9 +20,9 @@ Some key points of the Directive (articles 8, 9, 10):
 [Read the full Directive.](https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32019L1937)
 
 ### Our solution
-The power of Ripple and Cryptography allow us to provide the following:
+The power of XRPL and Cryptography allow us to provide the following:
 1. Mathematical certainty that no third party can access your reports.
-2. Anonymous access to the whistleblowing service thanks to Ripple.
+2. Anonymous access to the whistleblowing service thanks to XRPL.
 3. GDPR compliant: data is safe.
 4. Can allow arbitrary & custom anonymous access control.
 
@@ -30,11 +30,11 @@ The power of Ripple and Cryptography allow us to provide the following:
 Our NFTs contain an encrypted ciphertext (read below for crypto details). This initialises our second layer.
 
 **Future improvements.**
-- The internal Ripple NFT exchange chat allows for the mandatory Company follow-up.
+- The internal XRPL NFT exchange chat allows for the mandatory Company follow-up.
 
 ## BURNER ACCOUNTS
 
-Throwaway Ripple wallet able to perform one transaction and be safely discarded.
+Throwaway XRPL wallet able to perform one transaction and be safely discarded.
 
 **Involved parties.** Company, User.
 
@@ -56,7 +56,7 @@ The account can sell an NFT to the Company with enough info to allow our second-
 **Criticality.** Under our assumptions, we do not limit daily whispers. There is a possibility of a DOS attack. Could be solved with a soft limit (e.g. ~1000 accounts per day).
 
 ### 4. Burning
-The account [can be deleted](https://xrpl.org/deleting-accounts.html) from the Ripple blockchain. No ties to the User. Our second layer also needs to destroy all data on the secret keys, as described below.
+The account [can be deleted](https://xrpl.org/deleting-accounts.html) from the XRPL blockchain. No ties to the User. Our second layer also needs to destroy all data on the secret keys, as described below.
 
 ### Cryptography
 
@@ -68,7 +68,7 @@ User (after inheritance) has
 - user wallet asymmetric public key (U-PuK)
 - user wallet asymmetric private key (U-PrK)
 
-There are two Ripple transactions in the protocol. Their [memos](https://xrpl.org/transaction-common-fields.html#memos-field) can contain data. 
+There are two XRPL transactions in the protocol. Their [memos](https://xrpl.org/transaction-common-fields.html#memos-field) can contain data. 
 1. **Initialising transaction.** In the memo field, Company sends its part of the symmetric key exchange public data (C-KE). User can combine it with its own (U-KE) to obtain a shared symmetric secret key (C-SYM).
 2. **NFT transaction.** In the NFT, User sends the IPFS encrypted document under the shared symmetric key (C-SYM). In the memo field, User sends its part of the symmetric key exchange public data (U-KE). Company can combine it with its own (C-KE) to obtain the shared symmetric secret key (C-SYM).
 
@@ -81,7 +81,7 @@ Account burning must destroy C-SYM, C-KE, U-KE.
 **Threat model 3.** An attacker able to steal both after the protocol is done. He can only read one document (this one) and the account is already burned.
 
 **Future improvements.** 
-- Ripple already signs transactions, but Users and Companies might wish for an additional layer of security.
+- XRPL already signs transactions, but Users and Companies might wish for an additional layer of security.
 - A stronger key exchange.
 - Zero-knowledge proofs.
 - A layer of identity management to prevent DOS attacks.

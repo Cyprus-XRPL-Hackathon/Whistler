@@ -1,10 +1,44 @@
+# WHISTLER
+
+<p align = "center"> 
+<img width="200" alt="logo" src="https://github.com/Cyprus-XRPL-Hackathon/Whistler/assets/64229723/62acc23d-372d-465d-9eca-32eddcbd5ca1">
+</p>
+
+A comprehensive decentralised solution for the adoption of the EU whistleblowing directive [read more: EU commission](https://commission.europa.eu/aid-development-cooperation-fundamental-rights/your-rights-eu/protection-whistleblowers_en). Powered by Ripple and Algebra.
+
+## PROJECT OVERVIEW 
+Companies will provide Users (employees) with a fast and secure whistleblowing mechanism. There are two layers:
+1. **Ripple blockchain.** The Company has a Ripple wallet handled by the whistleblowing supervisor (according to EU, the HR manager). [Weighted multi-signing](https://xrpl.org/multi-signing.html) can be used to implement access control and require a weighted consensus. Users will be securely and anonymously provided a wallet to submit reports. We use a "burner account": it will be deleted along with all User-side information.
+2. **Custom layer.** Our solution operates on a second layer, initialised by an [NFT](https://xrpl.org/non-fungible-tokens.html) transaction containing encrypted data. Here is where reports will be sent, allowing for full communication control.
+
+### EU Directive
+Some key points of the Directive:
+1. Whistleblowers must be able to send reports confidentially.
+2. Reports can be submitted online.
+3. Companies need to provide a follow-up within some days.
+4. Companies need to store the report and contact the dedicated supervising authority with another channel.
+[Read the full Directive.](https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32019L1937)
+
+### Our solution
+The power of Ripple and Cryptography allow us to provide the following:
+1. Mathematical certainty that no third party can access your reports.
+2. Anonymus access to the whistleblowing service thanks to Ripple.
+3. GDPR compliant: data is safe.
+4. Can allow arbitrary & custom anonymous access control.
+
+## NFTs
+Our NFTs contain an encrypted ciphertext (read below for crypto details). This initialises our second layer.
+
+**Future improvements.**
+- The internal Ripple NFT exchange chat allows for the mandatory Company follow-up.
+
 ## BURNER ACCOUNTS
+
+Throwaway Ripple wallet able to perform one transaction and be safely discarded.
 
 **Involved parties.** Company, User.
 
 **Working assumptions.** Ideal assumptions: do NOT limit whispers (e.g. daily limit), User anonimity.
-
-**Description.** Throwaway Ripple wallet able to perform one transaction and be safely discarded.
 
 A cryptographic solution allows us to implement identity management by removing identities altogether. We adopt burner accounts with the following lifecycle:
 

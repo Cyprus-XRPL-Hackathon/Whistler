@@ -57,15 +57,15 @@ export const DashboardPage: React.FC = () => {
           </Account>
         )}
       </Row>
-      <Text>Offers</Text>
-      <Row gutter={24}>
+      <Text>Pending offers (not implemented)</Text>
+      {/* <Row gutter={24}>
         {data?.address && (
           // Hardcode for demo
           <Account address="rUNUhy8GLZAZmop2bykafBeWBa9DtX6u5U">
             <RequestOffersPage />
           </Account>
         )}
-      </Row>
+      </Row> */}
     </>
   );
 };
